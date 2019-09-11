@@ -12,7 +12,7 @@ namespace ParkingLot.Tests
         public ParkingLotTests()
         {
             clock = new TestClock();
-            lot = new ParkingLot(clock);
+            lot = new ParkingLot(clock, 15, TimeSpan.FromMinutes(15), TimeSpan.FromMinutes(0));
             Gates.Reset();
         }
 
@@ -179,13 +179,24 @@ namespace ParkingLot.Tests
         [Fact]
         public void ItCosts30ToPark30Minutes()
         {
-            // Opgave: lav test
+            lot.Checkin("AB 12 123");
+
+            clock.Forward(TimeSpan.FromMinutes(30));
+            lot.BeginCheckout("AB 12 123");
+
+            Assert.Equal(30m, lot.GetRemainingFee("AB 12 123"));
         }
 
         [Fact]
         public void ItCosts45ToPark30MinutesAnd1Ms()
         {
-            // Opgave: lav test
+            lot.Checkin("AB 12 123");
+
+            clock.Forward(TimeSpan.FromMinutes(30));
+            clock.Forward(TimeSpan.FromMilliseconds(1));
+            lot.BeginCheckout("AB 12 123");
+
+            Assert.Equal(45m, lot.GetRemainingFee("AB 12 123"));
         }
     }
 }
