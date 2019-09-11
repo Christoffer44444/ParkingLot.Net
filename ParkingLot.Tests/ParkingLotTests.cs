@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using ParkingLot.Fotex;
 using Xunit;
 
 namespace ParkingLot.Tests
@@ -13,6 +14,7 @@ namespace ParkingLot.Tests
         {
             clock = new TestClock();
             lot = new ParkingLot(clock, 15, TimeSpan.FromMinutes(15), TimeSpan.FromMinutes(0));
+            lot = new ParkingLot(clock, new FotexPriceStrategy());
             Gates.Reset();
         }
 
